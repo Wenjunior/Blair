@@ -1,0 +1,5 @@
+- [ ] Melhorar a forma como as tabelas são imprimidas: se o valor a ser imprimido é maior do que a quantidade maxima de espaços a tabela é imprimida de forma errada
+- [ ] Desenvolver os módulos:
+	- [ ] exploits/unix/ftp/vsftpd_234_backdoor
+	- [ ] recon/ports/tcp
+	- [ ] recon/ftp/banner
