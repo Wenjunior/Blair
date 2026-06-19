@@ -18,8 +18,6 @@ class Module:
 
 		self.info = info
 
-		self.options = info['options']
-
 	def get_title(self):
 		return self.info['title']
 
@@ -30,7 +28,7 @@ class Module:
 		return self.info['authors']
 
 	def get_options(self):
-		return self.options
+		return self.info['options']
 
 	def run(self, options):
 		return self.main.run(options)

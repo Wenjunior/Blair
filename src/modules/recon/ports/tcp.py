@@ -12,5 +12,5 @@ class Main(Reconnaissance):
 		]
 	}
 
-	def run(self, options):
-		print(options)
+	def run(self, values):
+		print(values)

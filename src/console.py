@@ -121,17 +121,19 @@ class BaseModuleConsole(BaseConsole):
 
 		args_len = len(args)
 
+		options = self.module.get_options()
+
+		names = [option.get_name() for option in options]
+
 		if args_len < 1:
-			raise TooFewArguments('show (options|<name>)')
+			raise TooFewArguments('show (all|' + '|'.join(names) + ')')
 
 		if args_len > 1:
 			raise TooManyArguments()
 
 		option_chosen = args[0]
 
-		options = self.module.get_options()
-
-		if option_chosen == 'options':
+		if option_chosen == 'all':
 			print('{}{: <10} {: <30} {: <25} Is required{}'.format(BOLD, 'Name', 'Description', 'Value', Style.RESET_ALL))
 
 			print('{: <10} {: <30} {: <25} ==========='.format('====', '=' * 11, '====='))
@@ -157,6 +159,9 @@ class BaseModuleConsole(BaseConsole):
 
 			return
 
+		if option_chosen not in names:
+			raise OptionNotFound()
+
 		for option in options:
 			name = option.get_name()
 
@@ -170,9 +175,7 @@ class BaseModuleConsole(BaseConsole):
 
 			print(value)
 
-			return
-
-		raise OptionNotFound()
+			break
 
 	def do_set(self, args):
 		"""Set option value"""
@@ -194,6 +197,21 @@ class BaseModuleConsole(BaseConsole):
 		for option in options:
 			if option.get_name() != name:
 				continue
+
+			type = option.get_type()
+
+			if type is int:
+				if not value.isdigit():
+					raise ValueError('Value is not a int')
+
+				value = int(value)
+			elif type is bool:
+				if value == 'true':
+					value = True
+				elif value == 'false':
+					value = False
+				else:
+					raise ValueError('Value is not a bool')
 
 			option.set_value(value)
 
